@@ -1,0 +1,65 @@
+<idea-plugin>
+    <id>com.fluencycode.ai-commit-assistant</id>
+    <name>AI Commit Assistant</name>
+    <vendor email="xiaoliu@fluencycode.com" url="https://github.com/FluencyCode">FluencyCode</vendor>
+
+    <description><![CDATA[
+    AI-powered commit message generator for Git and SVN
+    
+    <h2>Features</h2>
+    <ul>
+        <li>Auto-generate commit messages from code changes</li>
+        <li>Support Git and SVN version control</li>
+        <li>Conventional Commits compliant</li>
+        <li>Customizable detail level (Brief/Standard/Detailed)</li>
+        <li>Code diff preview before commit</li>
+        <li>Custom commit rules support</li>
+    </ul>
+    
+    <h2>Usage</h2>
+    <ol>
+        <li>Make your code changes</li>
+        <li>Open Commit/Checkin dialog</li>
+        <li>Click "Generate with AI" button</li>
+        <li>Review and edit the generated message</li>
+        <li>Commit!</li>
+    </ol>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
+    <depends>Git4Idea</depends>
+    <depends>Subversion</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Settings -->
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.fluencycode.aicommit.settings.AiCommitSettingsConfigurable"
+            id="com.fluencycode.aicommit.settings"
+            displayName="AI Commit Assistant"/>
+        
+        <applicationService
+            serviceImplementation="com.fluencycode.aicommit.settings.AiCommitSettings"/>
+    </extensions>
+
+    <actions>
+        <!-- Generate Commit Message Action -->
+        <action
+            id="com.fluencycode.aicommit.actions.GenerateCommitAction"
+            class="com.fluencycode.aicommit.actions.GenerateCommitAction"
+            text="Generate Commit Message with AI"
+            description="Generate commit message using AI">
+            <add-to-group group-id="Vcs.Message.ActionGroup" anchor="last"/>
+        </action>
+        
+        <!-- Preview Dialog Action -->
+        <action
+            id="com.fluencycode.aicommit.actions.PreviewCommitAction"
+            class="com.fluencycode.aicommit.actions.PreviewCommitAction"
+            text="Preview AI Commit"
+            description="Preview commit message and diff">
+            <add-to-group group-id="Vcs.Message.ActionGroup" anchor="before" relative-to-action="com.fluencycode.aicommit.actions.GenerateCommitAction"/>
+        </action>
+    </actions>
+</idea-plugin>
